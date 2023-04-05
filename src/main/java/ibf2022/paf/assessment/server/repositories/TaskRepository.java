@@ -9,16 +9,21 @@ import ibf2022.paf.assessment.server.models.Task;
 @Repository
 public class TaskRepository {
 
-    public String insertTask(Task task) {
-        
-        int taskInserted = template.update(SQL_INSERT_USER, userId, user.getUsername(), user.getName());
-        // check if task already exists
-        if (taskInserted > 0) {
-            return null;
-        } else {
-            // if task is not inserted successfully
-            return null;
-        }
+    public static final String SQL_INSERT_TASK = "INSERT INTO task (description, priority, due_date, user_id) VALUES (?, ?, ?, ?)";
 
+    public void insertTask(Task task) {
+
+        int count = template.queryForObject(SQL_INSERT_TASK, Integer.class, task.getDescription(), task.getDueDate(), task.getUserId());
+    
+        if (count == 0) {
+            String insertSql = "INSERT INTO task (description, priority, due_date, user_id) VALUES (?, ?, ?, ?)";
+            template.update(insertSql, task.getDescription(), task.getPriority(), task.getDueDate(), task.getUserId());
+        } else {
+            throw new IllegalArgumentException("Task already exists");
+        }
     }
+    
+
+     
+    
 }

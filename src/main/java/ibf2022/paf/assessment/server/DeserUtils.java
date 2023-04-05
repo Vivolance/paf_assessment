@@ -1,6 +1,8 @@
 package ibf2022.paf.assessment.server;
 
 import java.io.StringReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import ibf2022.paf.assessment.server.models.Task;
 import jakarta.json.Json;
@@ -11,6 +13,8 @@ class DeserUtils {
     /**
      * Contains serialization and deserialization utils
      */
+
+    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public static Task toTask(String jsonStr) {
         /**
