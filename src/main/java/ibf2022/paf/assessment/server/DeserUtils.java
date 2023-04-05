@@ -14,13 +14,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 public class DeserUtils {
-    /**
-     * Contains serialization and deserialization utils
-     */
+    
+    //Contains serialization and deserialization utils
     private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+    //Function to deserialize a String into a UserWithTask
     public static UserWithTask toUserWithTask(String payload) throws ParseException {
-        //Function to deserialize a String into a UserWithTask
         
         UserWithTask userWithTask = new UserWithTask();
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
@@ -53,8 +52,7 @@ public class DeserUtils {
                 task.setDueDate(taskDueDate);
                 tasks.add(task);
                 taskInt++;
-                // For debugging
-                // System.out.println("TaskInt: " + taskInt);
+               
             } else {
                 break;
             }

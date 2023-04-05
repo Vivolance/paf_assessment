@@ -2,7 +2,6 @@ package ibf2022.paf.assessment.server.controllers;
 
 import ibf2022.paf.assessment.server.DeserUtils;
 import ibf2022.paf.assessment.server.models.TaskUpdateException;
-import ibf2022.paf.assessment.server.models.User;
 import ibf2022.paf.assessment.server.models.UserWithTask;
 import ibf2022.paf.assessment.server.services.TodoService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,11 +36,16 @@ public class TasksController {
             modelAndView.setViewName("result");
             // set status code to 200 - Success
             response.setStatus(HttpServletResponse.SC_OK);
-        } catch (ParseException | TaskUpdateException e) {
+        } catch (ParseException e) {
             // display error.html
             modelAndView.setViewName("error");
             // set status code to 400 - Bad Request
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } catch (TaskUpdateException e) {
+            // display error.html
+            modelAndView.setViewName("error");
+            // set status code to 500 - Internal Server Error
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return modelAndView;
     }

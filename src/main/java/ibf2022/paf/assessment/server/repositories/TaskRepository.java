@@ -1,13 +1,12 @@
 package ibf2022.paf.assessment.server.repositories;
 
-import java.util.UUID;
-
+import ibf2022.paf.assessment.server.models.Task;
+import ibf2022.paf.assessment.server.models.TaskUpdateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import ibf2022.paf.assessment.server.models.Task;
-import ibf2022.paf.assessment.server.models.TaskUpdateException;
+import java.util.UUID;
 
 // TODO: Task 6
 
