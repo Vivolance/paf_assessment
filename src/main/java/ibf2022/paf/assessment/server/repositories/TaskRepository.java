@@ -14,7 +14,7 @@ public class TaskRepository {
         int taskInserted = template.update(SQL_INSERT_USER, userId, user.getUsername(), user.getName());
         // check if task already exists
         if (taskInserted > 0) {
-            return task;
+            return null;
         } else {
             // if task is not inserted successfully
             return null;
