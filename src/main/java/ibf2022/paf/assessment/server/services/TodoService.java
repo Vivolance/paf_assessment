@@ -43,8 +43,6 @@ public class TodoService {
 
         String userId = user.getUserId();
 
-        // PS: This shit ain't ideal; we should be using either AsyncIO (concurrently fire requests), or Parallelism (ThreadPoolExecutor) here.
-        // But screw it :D lets keep it simple
         for (Task task: tasks) {
             taskRepository.insertTask(task, userId);
         }
