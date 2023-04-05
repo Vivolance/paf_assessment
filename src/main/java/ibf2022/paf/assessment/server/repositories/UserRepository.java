@@ -17,10 +17,10 @@ import ibf2022.paf.assessment.server.models.User;
 public class UserRepository {
 
     public static final String SQL_FIND_USER_BY_NAME = """
-		select user_id, username, name from users where username = ?
+		select user_id, username, name from user where username = ?
 		""";
 
-    public static final String SQL_INSERT_USER = "insert into users (user_id, username, name) values (?, ?, ?)";
+    public static final String SQL_INSERT_USER = "insert into user (user_id, username, name) values (?, ?, ?)";
 
     @Autowired
     private JdbcTemplate template;
