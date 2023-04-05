@@ -1,5 +1,7 @@
 package ibf2022.paf.assessment.server.models;
 
+import java.util.Date;
+
 //import java.time.Instant;
 
 // TODO: Task 4
@@ -7,7 +9,7 @@ package ibf2022.paf.assessment.server.models;
 public class Task {
     private String description;
     private String priority;
-    private String dueDate;
+    private Date dueDate;
 
     public String getDescription() {
         return this.description;
@@ -25,11 +27,11 @@ public class Task {
         this.priority = priority;
     }
 
-    public String getDueDate() {
+    public Date getDueDate() {
         return this.dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 }
