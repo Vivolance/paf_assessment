@@ -1,6 +1,6 @@
 package ibf2022.paf.assessment.server.models;
 
-import java.time.Instant;
+//import java.time.Instant;
 
 // TODO: Task 4
 
@@ -29,10 +29,7 @@ public class Task {
         return this.dueDate;
     }
 
-    public void setDueDate(String string) {
-        this.dueDate = string;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
-    
-
-
 }

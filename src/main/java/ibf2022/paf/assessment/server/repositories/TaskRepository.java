@@ -10,15 +10,13 @@ import ibf2022.paf.assessment.server.models.Task;
 public class TaskRepository {
 
     public String insertTask(Task task) {
-
-        String userId = UUID.randomUUID().toString().substring(0, 8);
         
-        int rowsInserted = template.update(SQL_INSERT_USER, userId, user.getUsername(), user.getName());
-        // check if user already exists
-        if (rowsInserted > 0) {
-            return userId;
+        int taskInserted = template.update(SQL_INSERT_USER, userId, user.getUsername(), user.getName());
+        // check if task already exists
+        if (taskInserted > 0) {
+            return task;
         } else {
-            // if user is not inserted successfully
+            // if task is not inserted successfully
             return null;
         }
 
