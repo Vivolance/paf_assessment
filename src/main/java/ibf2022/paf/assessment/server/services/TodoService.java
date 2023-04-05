@@ -1,18 +1,18 @@
 package ibf2022.paf.assessment.server.services;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
-
+import ibf2022.paf.assessment.server.Utils;
+import ibf2022.paf.assessment.server.models.Task;
+import ibf2022.paf.assessment.server.models.TaskUpdateException;
+import ibf2022.paf.assessment.server.models.User;
+import ibf2022.paf.assessment.server.repositories.TaskRepository;
+import ibf2022.paf.assessment.server.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ibf2022.paf.assessment.server.models.TaskUpdateException;
-import ibf2022.paf.assessment.server.models.Task;
-import ibf2022.paf.assessment.server.models.User;
-import ibf2022.paf.assessment.server.repositories.TaskRepository;
-import ibf2022.paf.assessment.server.repositories.UserRepository;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.UUID;
 
 // TODO: Task 7
 
@@ -26,40 +26,28 @@ public class TodoService {
     UserRepository userRepository;
 
     @Transactional(rollbackFor = TaskUpdateException.class)
-    public String upsertTask(ArrayList<Task> tasks, User user) throws TaskUpdateException {
-        /**
-         * Used to insert a list of Tasks for a particular user into table `tasks`
-         *
-         * If user does not exist, create the user before inserting the tasks
-         *
-         * Since the method updates multiple tasks, and inserting multiple records
-         *
-         * We will ensure all are successful or not at all if any fails, by annotating this with a @Transactional
-         *
-         * Returns a Transaction ID, representing the success of the transaction
-         */
+    public String upsertTask(ArrayList<Task> tasks, String userName) throws TaskUpdateException {
+       
         String txId = UUID.randomUUID().toString().substring(0, 8);
-        createUserIfNotExists(user);
-
+        User user = getOrCreateAndInsertUser(userName);
         String userId = user.getUserId();
-
+        
+        
         for (Task task: tasks) {
             taskRepository.insertTask(task, userId);
         }
         return txId;
     }
 
-    public void createUserIfNotExists(User user) {
-        /**
-         * Checks if a user exists.
-         *
-         * If it doesn't, create one
-         */
-        Optional<User> foundUser = userRepository.findUserByUsername(user.getUsername());
+    public User getOrCreateAndInsertUser(String userName) throws TaskUpdateException {
+        
+        Optional<User> foundUser = userRepository.findUserByUsername(userName);
         if (foundUser.isEmpty()) {
-            userRepository.insertUser(user);
+            User newUser = Utils.createNewUser(userName);
+            userRepository.insertUser(newUser);
+            return newUser;
+        } else {
+            return foundUser.get();
         }
     }
 }
-
-

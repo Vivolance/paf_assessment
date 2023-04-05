@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import ibf2022.paf.assessment.server.models.Task;
+import ibf2022.paf.assessment.server.models.TaskUpdateException;
 
 // TODO: Task 6
 
@@ -18,7 +19,7 @@ public class TaskRepository {
     @Autowired
     private JdbcTemplate template;
 
-    public String insertTask(Task task, String userId) {
+    public String insertTask(Task task, String userId) throws TaskUpdateException {
 
         String taskId = UUID.randomUUID().toString().substring(0, 8);
 
@@ -28,7 +29,9 @@ public class TaskRepository {
             return taskId;
         } else {
             // if task is not inserted successfully
-            return null;
+            TaskUpdateException newException = new TaskUpdateException();
+            newException.setTaskInfo(task);
+            throw newException;
         }
 
     }

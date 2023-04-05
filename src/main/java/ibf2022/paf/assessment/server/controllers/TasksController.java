@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.ParseException;
 
 // TODO: Task 4, Task 8
-
 @Controller
 @RequestMapping(path="/")
 public class TasksController {
@@ -29,12 +28,11 @@ public class TasksController {
     public ModelAndView postTransfer(@RequestBody String payload, HttpServletResponse response) {
         ModelAndView modelAndView = new ModelAndView();
         System.out.printf(">>> payload: %s\n", payload);
-        // if date parsing error, return a status code 400 bad request
+        // If we get a date parsing error, return a status code 400 bad request
         try {
             UserWithTask userWithTask = DeserUtils.toUserWithTask(payload);
-            User dummyUser = new User();
-            dummyUser.setName(userWithTask.getUserName());
-            todoService.upsertTask(userWithTask.getTasks(), dummyUser);
+            String userName = userWithTask.getUserName();
+            todoService.upsertTask(userWithTask.getTasks(), userName);
             // display result.html
             modelAndView.setViewName("result");
             // set status code to 200 - Success
@@ -42,7 +40,7 @@ public class TasksController {
         } catch (ParseException | TaskUpdateException e) {
             // display error.html
             modelAndView.setViewName("error");
-            // set status code to 400 - bad request
+            // set status code to 400 - Bad Request
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
         return modelAndView;

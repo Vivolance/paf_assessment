@@ -18,10 +18,10 @@ create TABLE IF NOT EXISTS user (
 -- TASK 5: --
 
 create TABLE IF NOT EXISTS task (
-    task_id serial primary key,
+    task_id VARCHAR(8) primary key,
     description VARCHAR(255),
     priority INTEGER CHECK (priority >= 1 and priority <= 3),
     due_date DATE,
-    user_id INTEGER REFERENCES user(user_id)
+    user_id CHAR(8) REFERENCES user(user_id)
 );
 
