@@ -1,5 +1,9 @@
 package ibf2022.paf.assessment.server.repositories;
 
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import ibf2022.paf.assessment.server.models.Task;
@@ -9,21 +13,23 @@ import ibf2022.paf.assessment.server.models.Task;
 @Repository
 public class TaskRepository {
 
-    public static final String SQL_INSERT_TASK = "INSERT INTO task (description, priority, due_date, user_id) VALUES (?, ?, ?, ?)";
+    public static final String SQL_INSERT_TASK = "insert into task (task_id, description, priority, due_date, user_id) values (?, ?, ?, ?, ?)";
 
-    public void insertTask(Task task) {
+    @Autowired
+    private JdbcTemplate template;
 
-        int count = template.queryForObject(SQL_INSERT_TASK, Integer.class, task.getDescription(), task.getDueDate(), task.getUserId());
-    
-        if (count == 0) {
-            String insertSql = "INSERT INTO task (description, priority, due_date, user_id) VALUES (?, ?, ?, ?)";
-            template.update(insertSql, task.getDescription(), task.getPriority(), task.getDueDate(), task.getUserId());
+    public String insertTask(Task task, String userId) {
+
+        String taskId = UUID.randomUUID().toString().substring(0, 8);
+
+        int rowsInserted = template.update(SQL_INSERT_TASK, taskId, task.getDescription(), task.getPriority(), task.getDueDate(), userId);
+        // check if task already exists
+        if (rowsInserted > 0) {
+            return taskId;
         } else {
-            throw new IllegalArgumentException("Task already exists");
+            // if task is not inserted successfully
+            return null;
         }
-    }
-    
 
-     
-    
+    }
 }
