@@ -5,7 +5,6 @@ import ibf2022.paf.assessment.server.models.TaskUpdateException;
 import ibf2022.paf.assessment.server.models.User;
 import ibf2022.paf.assessment.server.models.UserWithTask;
 import ibf2022.paf.assessment.server.services.TodoService;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
