@@ -19,7 +19,7 @@ public class UserRepository {
 		select * from users where username = ?
 		""";
 
-    public static final String SQL_INSER_USER = "insert into users (user_id, username, name) values (?, ?, ?)";
+    public static final String SQL_INSERT_USER = "insert into users (user_id, username, name) values (?, ?, ?)";
 
     @Autowired
     private JdbcTemplate template;
@@ -42,8 +42,7 @@ public class UserRepository {
 
         String userId = UUID.randomUUID().toString().substring(0, 8);
         
-        String sql = "INSERT INTO users (user_id, username, name) VALUES (?, ?, ?)";
-        int rowsInserted = template.update(sql, userId, user.getUsername(), user.getName());
+        int rowsInserted = template.update(SQL_INSERT_USER, userId, user.getUsername(), user.getName());
         // check if user already exists
         if (rowsInserted > 0) {
             return userId;
