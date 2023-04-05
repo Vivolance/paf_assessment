@@ -26,7 +26,8 @@ public class TasksController {
     @PostMapping(path = "/task", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ModelAndView postTransfer(@RequestBody String payload, HttpServletResponse response) {
         ModelAndView modelAndView = new ModelAndView();
-        System.out.printf(">>> payload: %s\n", payload);
+        // For debugging
+        // System.out.println(">>> payload: %s\n", payload);
         // If we get a date parsing error, return a status code 400 bad request
         try {
             UserWithTask userWithTask = DeserUtils.toUserWithTask(payload);
@@ -34,6 +35,9 @@ public class TasksController {
             todoService.upsertTask(userWithTask.getTasks(), userName);
             // display result.html
             modelAndView.setViewName("result");
+            // add "taskCount" and "username" to be displayed on result.html
+            modelAndView.addObject("taskCount", userWithTask.getTasks().size());
+            modelAndView.addObject("username", userWithTask.getUserName());
             // set status code to 200 - Success
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (ParseException e) {
