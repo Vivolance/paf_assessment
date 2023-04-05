@@ -1,6 +1,7 @@
 package ibf2022.paf.assessment.server.repositories;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,18 +19,38 @@ public class UserRepository {
 		select * from users where username = ?
 		""";
 
+    public static final String SQL_INSER_USER = "insert into users (user_id, username, name) values (?, ?, ?)";
+
     @Autowired
     private JdbcTemplate template;
 
     public Optional<User> findUserByUsername(String username) {
         SqlRowSet rs = template.queryForRowSet(SQL_FIND_USER_BY_NAME, username);
 
-        return null;
+        if (rs.next()) {
+            // create a user object
+            User user = new User();
+            // populate the user object with data from result set
+            return Optional.of(user);
+        } else {
+            return Optional.empty();
+        }
         
     }
 
     public String insertUser(User user) {
 
-        return null;
+        String userId = UUID.randomUUID().toString().substring(0, 8);
+        
+        String sql = "INSERT INTO users (user_id, username, name) VALUES (?, ?, ?)";
+        int rowsInserted = template.update(sql, userId, user.getUsername(), user.getName());
+        // check if user already exists
+        if (rowsInserted > 0) {
+            return userId;
+        } else {
+            // if user is not inserted successfully
+            return null;
+        }
+
     }
 }
